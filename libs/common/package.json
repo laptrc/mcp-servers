@@ -1,0 +1,14 @@
+{
+  "name": "@mcp-servers/common",
+  "version": "0.0.1",
+  "private": true,
+  "type": "commonjs",
+  "main": "./index.cjs",
+  "types": "./index.d.ts",
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.10.1",
+    "@web-master/node-web-fetch": "^0.10.0",
+    "dayjs": "^1.11.13"
+
+  }
+}
