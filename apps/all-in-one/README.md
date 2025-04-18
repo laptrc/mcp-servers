@@ -1,7 +1,6 @@
 # All-in-one MCP Server
 
-All-in-one MCP Server has features:
-1. Check Vietnam lottery results
+You have all tools by running this single server.
 
 ## Tools
 
