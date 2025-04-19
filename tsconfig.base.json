@@ -15,7 +15,9 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@mcp-servers/common": ["libs/common/src/index.ts"]
+      "@mcp-servers/common": ["libs/common/src/index.ts"],
+      "@mcp-servers/lottery-shared": ["libs/lottery-shared/src/index.ts"],
+      "@mcp-servers/weather-shared": ["libs/weather-shared/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

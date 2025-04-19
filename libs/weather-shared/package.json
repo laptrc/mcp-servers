@@ -1,5 +1,5 @@
 {
-  "name": "@mcp-servers/common",
+  "name": "@mcp-servers/weather-shared",
   "version": "0.0.1",
   "private": true,
   "type": "commonjs",
