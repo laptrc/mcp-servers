@@ -39,7 +39,7 @@ export function runServer(name: string, version: string, tools: Tools): void {
     console.error(`Starting ${name} MCP Server...`);
     const server = new Server(
       {
-        name: 'Lottery MCP Server',
+        name: `${name} MCP Server`,
         version,
       },
       {
