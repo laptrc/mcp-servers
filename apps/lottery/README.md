@@ -5,7 +5,7 @@ MCP Server for checking Vietnam lottery results.
 ## Tools
 
 1. `lottery_check`
-   - Check lottery results
+   - Check lottery result
    - Required inputs:
      - `location` (string): Location/place of the lottery
      - `date` (string): Date of the lottery

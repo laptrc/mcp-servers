@@ -11,6 +11,18 @@ import { DateUtil } from '../date.util';
 const dayjs = (Dayjs as any).default;
 /* eslint-enable @typescript-eslint/no-explicit-any */
 
+// Type definitions for fetch response
+export type LotteryResponse = {
+  title: string;
+  date: string;
+  prizeNames: string[];
+  prizes: LotteryPrice[];
+};
+
+export type LotteryPrice = {
+  items: string[];
+};
+
 // Type definitions for tool arguments
 type CheckArgs = {
   location: string;
@@ -61,42 +73,43 @@ export const lotteryTools = new Map<string, RegisteredTool>([
           DateUtil.DayMonthYearDashFormat
         )}`;
 
-        const data: {
-          title: string;
-          date: string;
-          prizeNames: string[];
-          prizes: {
-            items: string[];
-          }[];
-        } = await fetch({
-          target: url,
-          fetch: {
-            title: 'table tr.title td span.tendai a',
-            date: 'table tr.title td span.ngay a',
-            prizeNames: {
-              listItem: 'table tr[class*="giai"] td.tengiai',
-            },
-            prizes: {
-              listItem: 'table tr[class*="giai"] td.giai',
-              data: {
-                items: {
-                  listItem: 'div[class*="lq"]',
+        try {
+          const data: LotteryResponse = await fetch({
+            target: url,
+            fetch: {
+              title: 'table tr.title td span.tendai a',
+              date: 'table tr.title td span.ngay a',
+              prizeNames: {
+                listItem: 'table tr[class*="giai"] td.tengiai',
+              },
+              prizes: {
+                listItem: 'table tr[class*="giai"] td.giai',
+                data: {
+                  items: {
+                    listItem: 'div[class*="lq"]',
+                  },
                 },
               },
             },
-          },
-        });
+          });
 
-        const result = data.prizeNames
-          .map(
-            (priceName, index) =>
-              `${priceName} - ${data.prizes[index].items.join(', ')}`
-          )
-          .join('\n');
+          const result = data.prizeNames
+            .map(
+              (priceName, index) =>
+                `${priceName}: ${data.prizes[index].items.join(', ')}`
+            )
+            .join('\n');
 
-        return {
-          content: [{ type: 'text', text: result }],
-        };
+          return {
+            content: [{ type: 'text', text: result }],
+          };
+        } catch (error) {
+          console.error(error);
+
+          return {
+            content: [{ type: 'text', text: JSON.stringify(error) }],
+          };
+        }
       },
     } as RegisteredTool,
   ],

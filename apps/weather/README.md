@@ -1,16 +1,10 @@
-# All-in-one MCP Server
+# Weather MCP Server
 
-You have all tools by running this single server.
+MCP Server for checking weather conditions.
 
 ## Tools
 
-1. `lottery_check`
-   - Check Vietnam lottery results
-   - Required inputs:
-     - `location` (string): Location/place of the lottery
-     - `date` (string): Date of the lottery
-   - Returns: Result of the lottery
-2. `weather_current`
+1. `weather_current`
    - Get current weather conditions for a city
    - Required inputs:
      - `city` (string): City name (e.g., 'Thanh pho Ho Chi Minh', 'Ha Noi')
@@ -26,7 +20,7 @@ You have all tools by running this single server.
 NX build:
 
 ```bash
-nx run all-in-one:build:production
+nx run weather:build:production
 ```
 
 ### Usage with Visual Studio Code
@@ -47,10 +41,10 @@ Add the following to your `.vscode/mcp.json` or `settings.json` files:
       },
     ],
     "servers": {
-      "all-in-one": {
+      "weather": {
         "command": "node",
         "args": [
-          "your-path/mcp-servers/dist/apps/all-in-one/main.js",
+          "your-path/mcp-servers/dist/apps/weather/main.js",
         ],
         "env": {
           "OPEN_WEATHER_MAP_API_KEY": "${input:OPEN_WEATHER_MAP_API_KEY}"
@@ -68,7 +62,7 @@ Add the following to your `.vscode/mcp.json` or `settings.json` files:
 ### Troubleshooting
 
 If you encounter errors, verify that:
-1. Make sure the path is `your-path/mcp-servers/dist/apps/all-in-one/main.js`, not `your-path/mcp-servers/dist/apps/all-in-one/apps/all-in-one/main.js`
+1. Make sure the path is `your-path/mcp-servers/dist/apps/weather/main.js`, not `your-path/mcp-servers/dist/apps/lottery/apps/weather/main.js`
 2. OpenWeatherMap API key is valid
 
 ## License
