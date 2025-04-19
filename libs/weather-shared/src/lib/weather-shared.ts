@@ -1,6 +1,6 @@
 import { CallToolRequest, Tool } from '@modelcontextprotocol/sdk/types';
 
-import { RegisteredTool, Tools } from '../common';
+import { RegisteredTool, Tools } from '@mcp-servers/common';
 
 // Type definitions for OpenWeatherMap API response
 export type WeatherStatus = {
@@ -105,9 +105,7 @@ export const weatherTools = new Map<string, RegisteredTool>([
           const weatherStatus: WeatherStatus = await response.json();
 
           let result = `
-General: ${weatherStatus.weather
-            ?.map((w) => w.description)
-            ?.join(', ')}
+General: ${weatherStatus.weather?.map((w) => w.description)?.join(', ')}
 Temperature: ${weatherStatus.main.temp_min}${
             weatherStatus.main.temp_max !== weatherStatus.main.temp_min
               ? '-' + weatherStatus.main.temp_max
