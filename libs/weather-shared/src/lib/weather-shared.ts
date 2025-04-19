@@ -87,57 +87,47 @@ export const weatherTools = new Map<string, RegisteredTool>([
       handler: async (request: CallToolRequest) => {
         const args = request.params.arguments as unknown as CurrentArgs;
 
-        console.log(args.city, args.units);
-
         const url = `https://api.openweathermap.org/data/2.5/weather?q=${
           args.city
         }&appid=${process.env['OPEN_WEATHER_MAP_API_KEY']}&lang=${
           args.lang || 'vi'
         }&units=${args.units || 'metric'}`;
 
-        try {
-          const response = await fetch(url);
+        const response = await fetch(url);
 
-          if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-          }
+        if (!response.ok) {
+          throw new Error(`Response status: ${response.status}`);
+        }
 
-          const weatherStatus: WeatherStatus = await response.json();
+        const weatherStatus: WeatherStatus = await response.json();
 
-          let result = `
+        let result = `
 General: ${weatherStatus.weather?.map((w) => w.description)?.join(', ')}
 Temperature: ${weatherStatus.main.temp_min}${
-            weatherStatus.main.temp_max !== weatherStatus.main.temp_min
-              ? '-' + weatherStatus.main.temp_max
-              : ''
-          }
+          weatherStatus.main.temp_max !== weatherStatus.main.temp_min
+            ? '-' + weatherStatus.main.temp_max
+            : ''
+        }
 Humidity: ${weatherStatus.main.humidity}
 Pressure: ${weatherStatus.main.pressure}
 Wind: ${weatherStatus.wind.speed}
 Clouds: ${weatherStatus.clouds.all}`;
 
-          if (weatherStatus.rain) {
-            if (weatherStatus.rain['1h']) {
-              result = `${result}
+        if (weatherStatus.rain) {
+          if (weatherStatus.rain['1h']) {
+            result = `${result}
 Rain (1h): ${weatherStatus.rain['1h']}`;
-            }
-
-            if (weatherStatus.rain['3h']) {
-              result = `${result}
-Rain (3h): ${weatherStatus.rain['3h']}`;
-            }
           }
 
-          return {
-            content: [{ type: 'text', text: result }],
-          };
-        } catch (error) {
-          console.error(error);
-
-          return {
-            content: [{ type: 'text', text: JSON.stringify(error) }],
-          };
+          if (weatherStatus.rain['3h']) {
+            result = `${result}
+Rain (3h): ${weatherStatus.rain['3h']}`;
+          }
         }
+
+        return {
+          content: [{ type: 'text', text: result }],
+        };
       },
     } as RegisteredTool,
   ],

@@ -76,43 +76,35 @@ export const lotteryTools = new Map<string, RegisteredTool>([
           DateUtil.DayMonthYearDashFormat
         )}`;
 
-        try {
-          const data: LotteryResponse = await fetch({
-            target: url,
-            fetch: {
-              title: 'table tr.title td span.tendai a',
-              date: 'table tr.title td span.ngay a',
-              prizeNames: {
-                listItem: 'table tr[class*="giai"] td.tengiai',
-              },
-              prizes: {
-                listItem: 'table tr[class*="giai"] td.giai',
-                data: {
-                  items: {
-                    listItem: 'div[class*="lq"]',
-                  },
+        const data: LotteryResponse = await fetch({
+          target: url,
+          fetch: {
+            title: 'table tr.title td span.tendai a',
+            date: 'table tr.title td span.ngay a',
+            prizeNames: {
+              listItem: 'table tr[class*="giai"] td.tengiai',
+            },
+            prizes: {
+              listItem: 'table tr[class*="giai"] td.giai',
+              data: {
+                items: {
+                  listItem: 'div[class*="lq"]',
                 },
               },
             },
-          });
+          },
+        });
 
-          const result = data.prizeNames
-            .map(
-              (priceName, index) =>
-                `${priceName}: ${data.prizes[index].items.join(', ')}`
-            )
-            .join('\n');
+        const result = data.prizeNames
+          .map(
+            (priceName, index) =>
+              `${priceName}: ${data.prizes[index].items.join(', ')}`
+          )
+          .join('\n');
 
-          return {
-            content: [{ type: 'text', text: result }],
-          };
-        } catch (error) {
-          console.error(error);
-
-          return {
-            content: [{ type: 'text', text: JSON.stringify(error) }],
-          };
-        }
+        return {
+          content: [{ type: 'text', text: result }],
+        };
       },
     } as RegisteredTool,
   ],
